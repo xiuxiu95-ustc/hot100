@@ -1,0 +1,73 @@
+import java.util.*;
+public class Main{
+    static class LRUCache {
+        private final int capacity;
+        private final Map<Integer,Integer> cache=new LinkedHashMap<>();
+        public LRUCache(int capacity) {
+            this.capacity=capacity;
+        }
+
+        public int get(int key) {
+            Integer value=cache.remove(key);
+            if(value!=null){
+                cache.put(key,value);
+                return value;
+            }
+            return -1;
+        }
+
+        public void put(int key, int value) {
+            if(cache.remove(key)!=null){
+                cache.put(key,value);
+                return ;
+            }
+            if(cache.size()==capacity){
+                Integer eldestKey=cache.keySet().iterator().next();
+                cache.remove(eldestKey);
+            }
+            cache.put(key,value);
+        }
+    }
+    public static void main(String[] args) {
+        Scanner sc=new Scanner(System.in);
+        System.out.println("请输入容量大小");
+        int capacity=sc.nextInt();
+        LRUCache lruCache=new LRUCache(capacity);
+        System.out.println("请输入指令个数");
+        sc.nextLine();
+        int n=sc.nextInt();
+        sc.nextLine();
+        for(int i = 0; i < n; i++){
+            System.out.println("请输入指令");
+            String[] str=sc.nextLine().split(" ");
+            if(str[0].equals("get")){
+                int key=Integer.parseInt(str[1]);
+                System.out.println(lruCache.get(key));
+            }else if(str[0].equals("put")){
+                int key = Integer.parseInt(str[1]);
+                int value = Integer.parseInt(str[2]);
+                lruCache.put(key, value);
+            }
+        }
+    }
+}
+/*
+请输入容量大小
+2
+请输入指令个数
+6
+请输入指令
+put 1 1
+请输入指令
+put 2 2
+请输入指令
+get 1
+        1
+请输入指令
+put 3 3
+请输入指令
+get 2
+        -1
+请输入指令
+get 3
+        3*/

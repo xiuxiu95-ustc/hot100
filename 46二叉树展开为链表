@@ -1,0 +1,33 @@
+import java.util.*;
+public class Main{
+    static class TreeNode{
+        int val;
+        TreeNode left;
+        TreeNode right;
+        TreeNode(){}
+        TreeNode(int val){this.val=val;}
+        TreeNode(int val,TreeNode left,TreeNode right){this.val=val;this.left=left;this.right=right;}
+    }
+    static TreeNode pre;
+    public static void main(String[] args){
+        TreeNode root = new TreeNode(1,new TreeNode(2,new TreeNode(3),new TreeNode(4)),new TreeNode(5,null,new TreeNode(6)));
+        flatten(root);
+
+        // 打印展开后的链表（只遍历右节点即可）
+        TreeNode cur = root;
+        while(cur != null){
+            System.out.print(cur.val + " ");
+            cur = cur.right;
+        }
+
+    }
+    public static void flatten(TreeNode root) {
+        if(root==null)return;
+        //递归顺序 右→左→根 这是本题的核心精髓
+        flatten(root.right);
+        flatten(root.left);//不能漏掉了
+        root.right=pre;
+        root.left=null;
+        pre=root;
+    }
+}

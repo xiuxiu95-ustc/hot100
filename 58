@@ -1,0 +1,35 @@
+import java.security.PublicKey;
+import java.util.*;
+public class Main{
+    static List<List<Integer>> res=new ArrayList<>();
+    static List<Integer> path=new ArrayList<>();
+    public static void main(String[] args){
+        Scanner sc=new Scanner(System.in);
+        int n=sc.nextInt();
+        sc.nextLine();
+        int[] candidates=new int[n];
+        for(int i=0;i<n;i++){
+            candidates[i]=sc.nextInt();
+        }
+        sc.nextLine();
+        int target=sc.nextInt();
+        dfs(candidates,target,0,0);
+        System.out.println(res);
+
+    }
+    public static void dfs(int[] candidates,int target,int sum,int startIndex){
+        if(sum>target)return;
+        if(sum==target){
+            res.add(new ArrayList<>(path));
+            return;
+        }
+        for(int i=startIndex;i<candidates.length;i++){
+            sum+=candidates[i];
+            path.add(candidates[i]);
+            dfs(candidates,target,sum,i);//题目说同一个 数字可以 无限制重复被选取
+            //下一轮我还可以继续从位置 i 开始选，但我绝不能往回选位置 i-1 的数字
+            sum-=candidates[i];
+            path.remove(path.size()-1);
+        }
+    }
+}

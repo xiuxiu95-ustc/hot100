@@ -1,0 +1,35 @@
+import java.util.*;
+public class Main{
+    static List<List<String>> res=new ArrayList<>();
+    static List<String> path=new ArrayList<>();
+    public static void main(String[] args){
+        Scanner sc=new Scanner(System.in);
+        String s=sc.next();
+        dfs(s,0);
+        System.out.println(res);
+    }
+    public static void dfs(String s,int startIndex){
+        if(startIndex==s.length()){
+            res.add(new ArrayList<>(path));
+            return;
+        }
+        for(int i=startIndex;i<s.length();i++){
+            String str=s.substring(startIndex,i+1);//本轮切割的终点坐标是i（当前起点坐标）
+            if(check(str)){
+                path.add(str);
+                dfs(s,i+1);//下一轮切割的起点坐标是i+1（当前终点坐标＋1）
+                path.remove(path.size()-1);
+            }
+        }
+    }
+    public static boolean check(String str){
+        int i=0;
+        int j= str.length()-1;
+        while(i<j){
+            if(str.charAt(i)!=str.charAt(j))return false;
+            i++;
+            j--;
+        }
+        return true;
+    }
+}

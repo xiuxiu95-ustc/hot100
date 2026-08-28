@@ -1,0 +1,32 @@
+import java.util.*;
+public class Main{
+    static List<List<Integer>> res=new ArrayList<>();
+    static List<Integer> path =new ArrayList<>();
+    static boolean[] used;
+    public static void main(String[] args){
+        Scanner sc=new Scanner(System.in);
+        int n=sc.nextInt();
+        sc.nextLine();
+        int[] nums=new int[n];
+        for(int i=0;i<n;i++){
+            nums[i]=sc.nextInt();
+        }
+        used =new boolean[n];
+        dfs(nums);
+        System.out.println(res);
+    }
+    public static void dfs(int[] nums){
+        if(path.size()==nums.length){
+            res.add(new ArrayList<>(path));
+            return;
+        }
+        for(int i=0;i<nums.length;i++){
+            if(used[i])continue;//排列可以回头，组合只能startindex
+            path.add(nums[i]);
+            used[i]=true;
+            dfs(nums);
+            path.remove(path.size()-1);
+            used[i]=false;
+        }
+    }
+}

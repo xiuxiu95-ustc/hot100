@@ -1,0 +1,73 @@
+import java.util.*;
+public class Main{
+    static class ListNode{
+        int val;
+        ListNode next;
+        ListNode() {}
+        ListNode(int val) { this.val = val; }
+        ListNode(int val, ListNode next) {this.val = val; this.next = next; }
+    }
+    public static ListNode buildList(int[] nums){
+        ListNode dummy=new ListNode();
+        ListNode cur=dummy;
+        for(int i = 0; i < nums.length; i++){
+            cur.next=new ListNode(nums[i]);
+            cur=cur.next;
+        }
+        return dummy.next;
+    }
+    public static void main(String[] args) {
+        Scanner sc=new Scanner(System.in);
+        System.out.println("请输入链表（如 5->3->1->4->2 ）");
+        String[] str=sc.nextLine().split("->");
+        int[] nums=new int[str.length];
+        for(int i=0;i<nums.length;i++){
+            nums[i]=Integer.parseInt(str[i]);
+        }
+        ListNode head=buildList(nums);
+        ListNode node= sortList(head);
+        //打印
+        ListNode temp = node;
+        while (temp != null) {
+            System.out.print(temp.val);
+            temp = temp.next;
+            if(temp!=null){
+                System.out.print("->");
+            }
+        }
+        System.out.println();
+    }
+    public static ListNode sortList(ListNode head){
+        //递归终止条件
+        if(head==null || head.next==null)return head;
+        ListNode fast=head.next;
+        //与回文不同之处,在链表长度为偶数时，让 slow 刚好停在左半部分的最后一个节点。链表长度为奇数时，slow 指针会刚好停在链表的正中间节点
+        ListNode slow=head;
+        while(fast!=null&&fast.next!=null){
+            fast=fast.next.next;
+            slow=slow.next;
+        }
+        ListNode rightHead=slow.next;
+        slow.next=null;
+        ListNode left=sortList(head);
+        ListNode right=sortList(rightHead);
+        return merge(left,right);
+    }
+    public static ListNode merge(ListNode left,ListNode right){
+        ListNode dummy=new ListNode();
+        ListNode cur=dummy;
+        while(left!=null && right!=null){
+            if(left.val<= right.val){
+                cur.next=left;//直接把现成的 left 节点接过来
+                left=left.next;
+            }else{
+                cur.next=right;
+                right=right.next;
+            }
+            cur=cur.next;
+        }
+        //循环结束后，直接把没遍历完的整个链表接上去即可
+        cur.next=left!=null?left:right;
+        return dummy.next;
+    }
+}

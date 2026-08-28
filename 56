@@ -1,0 +1,27 @@
+import java.util.*;
+public class Main{
+    static List<List<Integer>> res=new ArrayList<>();
+    static List<Integer> path =new ArrayList<>();
+    public static void main(String[] args){
+        Scanner sc=new Scanner(System.in);
+        int n=sc.nextInt();
+        sc.nextLine();
+        int[] nums=new int[n];
+        for(int i=0;i<n;i++){
+            nums[i]=sc.nextInt();
+        }
+        dfs(nums,0);
+        System.out.println(res);
+    }
+    public static void dfs(int[] nums,int startIndex){
+        res.add(new ArrayList<>(path));//每次递归的结果都是子集
+        if(startIndex==nums.length){
+            return;
+        }
+        for(int i=startIndex;i< nums.length;i++){
+            path.add(nums[i]);
+            dfs(nums,i+1);
+            path.remove(path.size()-1);
+        }
+    }
+}

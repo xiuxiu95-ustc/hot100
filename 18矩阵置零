@@ -1,0 +1,74 @@
+/*
+import java.util.*;
+public class Main{
+    
+    public static void main(String[] args ){
+        Scanner sc=new Scanner(System.in);
+        int m=sc.nextInt();
+        int n=sc.nextInt();
+        int[][] nums=new int[m][n];
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                nums[i][j]=sc.nextInt();
+            }
+        }
+        for(int[] row :solve(nums)){
+            System.out.print(Arrays.toString(row)+" ");
+        }
+        
+        
+    }
+    public static int[][] solve(int[][] nums){
+        boolean firstRowHasZero=false;
+        boolean firstColHasZero=false;
+        int m=nums.length;
+        int n=nums[0].length; 
+        // 第一步：检查第一列是否有0
+        for(int i=0;i<m;i++){
+            if(nums[i][0]==0){
+                firstColHasZero=true;
+                break;
+            }
+        }
+        // 第二步：检查第一行是否有0
+        for(int j=0;j<n;j++){
+           if(nums[0][j]==0){
+            firstRowHasZero=true;
+            break;
+            } 
+        }
+        // 第三步：用第一行和第一列标记其他行和列的零
+        for(int i=1;i<m;i++){
+            for(int j=1;j<n;j++){
+                if(nums[i][j]==0){
+                    nums[i][0]=0;
+                    nums[0][j]=0;
+                }
+            }
+        }
+        // 第四步：根据标记，将其他行和列置零
+        for(int i=1;i<m;i++){
+            for(int j=1;j<n;j++){
+                if(nums[i][0]==0 || nums[0][j]==0){
+                    nums[i][j]=0;
+                }
+            }
+        }
+        // 第五、六步：处理第一行、第一列（如果原本有0）
+        if(firstRowHasZero){
+            for(int j=0;j<n;j++){
+                nums[0][j]=0;
+            }
+        }
+        if(firstColHasZero){
+            for(int i=0;i<m;i++){
+                nums[i][0]=0;
+            }
+        }
+        return nums;
+    }
+}
+
+     
+      
+*/

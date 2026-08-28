@@ -1,0 +1,84 @@
+import java.util.*;
+public class Main{
+    public static void main(String[] args){
+        Scanner sc=new Scanner(System.in);
+        Trie trie=new Trie();
+        while(sc.hasNext()){
+            String op=sc.next();
+            if(op.equals("exit")){
+                break;
+            }
+            switch(op) {
+                case ("insert"):
+                    String word = sc.next();
+                    trie.insert(word);
+                    System.out.println("null");
+                    break;
+                case ("search"):
+                    String searchWord = sc.next();
+                    System.out.println(trie.search(searchWord));
+                    break;
+                case ("startsWith"):
+                    String prefix = sc.next();
+                    System.out.println(trie.startsWith(prefix));
+                    break;
+                default:
+                    System.out.println("null");
+            }
+        }
+
+    }
+    static class TrieNode{
+        TrieNode[] children;
+        boolean isEnd;
+        public TrieNode(){
+            children=new TrieNode[26];
+            isEnd=false;
+
+        }
+    }
+    static class Trie{
+        private TrieNode root;
+        public Trie() {
+            root =new TrieNode();
+        }
+        public void insert(String word) {
+            TrieNode cur=root;
+            for(int i=0;i<word.length();i++){
+                char ch=word.charAt(i);
+                int idx=ch-'a';
+                if(cur.children[idx]==null){
+                    cur.children[idx]=new TrieNode();
+                }
+                cur=cur.children[idx];
+            }
+            cur.isEnd=true;
+        }
+
+        public boolean search(String word) {
+            TrieNode cur=root;
+            for(int i=0;i<word.length();i++){
+                char ch=word.charAt(i);
+                int idx=ch-'a';
+                if(cur.children[idx]==null){
+                    return false;
+                }
+                cur=cur.children[idx];
+            }
+            return cur.isEnd;
+        }
+
+        public boolean startsWith(String prefix) {
+            TrieNode cur=root;
+            for(int i=0;i<prefix.length();i++){
+                char ch=prefix.charAt(i);
+                int idx=ch-'a';
+                if(cur.children[idx]==null){
+                    return false;
+                }
+                cur=cur.children[idx];
+            }
+            return true;
+        }
+    }
+}

@@ -1,0 +1,26 @@
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc=new Scanner(System.in);
+        System.out.println("请输入排序数组：例如[4,5,6,7,0,1,2]");
+        String str=sc.nextLine();
+        String[] strNums=str.substring(1,str.length()-1).split(",");
+        int[] nums=new int[strNums.length];
+        for(int i=0;i<strNums.length;i++){
+            nums[i]=Integer.parseInt(strNums[i]);
+        }
+        int left=0;
+        int right=nums.length-1;
+        while(left<right){
+            int mid=left+(right-left)/2;
+            if(nums[mid]>nums[right]){
+                left=mid+1;
+            }else{
+                right=mid;
+            }
+        }
+        System.out.println("数组的最小值为："+nums[left]);
+        sc.close();
+    }
+}

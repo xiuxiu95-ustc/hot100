@@ -1,0 +1,71 @@
+import java.util.*;
+public class Main{
+    static class ListNode{
+        int val;
+        ListNode next;
+        ListNode() {}
+        ListNode(int val) { this.val = val; }
+        ListNode(int val, ListNode next) {this.val = val; this.next = next; }
+    }
+    public static ListNode buildList(int[] nums){
+        ListNode dummy=new ListNode();
+        ListNode cur=dummy;
+        for(int i = 0; i < nums.length; i++){
+            cur.next=new ListNode(nums[i]);
+            cur=cur.next;
+        }
+        return dummy.next;
+    }
+    public static void main(String[] args) {
+        Scanner sc=new Scanner(System.in);
+        System.out.println("请输入链表数组大小");
+        int n=sc.nextInt();
+        sc.nextLine();
+        ListNode[] lists=new ListNode[n];
+        for(int mark=0;mark<n;mark++){
+            System.out.println("请输入链表（如 5->3->1->4->2 ）");
+            String[] str=sc.nextLine().split("->");
+            int[] nums=new int[str.length];
+            for(int i=0;i<nums.length;i++){
+                nums[i]=Integer.parseInt(str[i]);
+            }
+            ListNode head=buildList(nums);
+            lists[mark]=head;
+        }
+
+        ListNode node= sortList(lists,0,n-1);
+        //打印
+        ListNode temp = node;
+        while (temp != null) {
+            System.out.print(temp.val);
+            temp = temp.next;
+            if(temp!=null){
+                System.out.print("->");
+            }
+        }
+        System.out.println();
+    }
+    public static ListNode sortList(ListNode[] lists, int i, int j){
+        if(i==j)return lists[i];
+        int mid=i+(j-i)/2;
+        ListNode left=sortList(lists,i,mid);
+        ListNode right=sortList(lists,mid+1,j);
+        return merge(left,right);
+    }
+    public static ListNode merge(ListNode left,ListNode right){
+        ListNode dummy=new ListNode();
+        ListNode cur=dummy;
+        while(left!=null && right!=null){
+            if(left.val<= right.val){
+                cur.next=left;
+                left=left.next;
+            }else{
+                cur.next=right;
+                right=right.next;
+            }
+            cur=cur.next;
+        }
+        cur.next=left!=null?left:right;
+        return dummy.next;
+    }
+}

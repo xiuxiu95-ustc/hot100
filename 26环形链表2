@@ -1,0 +1,63 @@
+import java.util.*;
+public class Main{
+    static class ListNode{
+        int val;
+        ListNode next;
+        ListNode() {}
+        ListNode(int val) { this.val = val; }
+        ListNode(int val, ListNode next) {this.val = val; this.next = next; }
+    }
+    public static ListNode buildCycleList(int[] nums,int pos){
+        ListNode dummy=new ListNode();
+        ListNode cur=dummy;
+        ListNode cycle=null;
+        for(int i = 0; i < nums.length; i++){
+            cur.next=new ListNode(nums[i]);
+            cur=cur.next;
+            if(i==pos){
+                cycle=cur;
+            }
+        }
+        if(pos!=-1){
+            cur.next=cycle;
+        }
+        return dummy.next;
+    }
+    public static void main(String[] args) {
+        Scanner sc=new Scanner(System.in);
+        System.out.println("请输入链表");
+        String[] str=sc.nextLine().split("->");
+        int[] nums=new int[str.length];
+        for(int i=0;i<str.length;i++){
+            nums[i]=Integer.parseInt(str[i]);
+        }
+        System.out.println("请输入环的入口索引（-1表示无环，索引从0开始)");
+        int pos=sc.nextInt();
+        ListNode head= buildCycleList(nums,pos);
+        ListNode fast=head;
+        ListNode slow=head;
+        boolean mark=false;
+        ListNode entrance = null;
+        while(fast!=null && fast.next!=null){
+            fast=fast.next.next;
+            slow=slow.next;
+            if(fast==slow){
+                mark=true;
+                ListNode a=fast;
+                ListNode b=head;
+                while(a!=b){
+                    a=a.next;
+                    b=b.next;
+                }
+                entrance = a;
+                break;
+            }
+        }
+        // 优化输出：打印具体值，无环时给出提示
+        if (mark) {
+            System.out.println("链表有环，环的入口节点值为：" + entrance.val);
+        } else {
+            System.out.println("链表无环");
+        }
+    }
+}

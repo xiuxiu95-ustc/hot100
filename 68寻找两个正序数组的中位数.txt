@@ -1,0 +1,88 @@
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc=new Scanner(System.in);
+        System.out.println("请输入第一个正序数组(例如[1,3]):");
+        String str1=sc.nextLine();
+        String[] strNums1=str1.substring(1,str1.length()-1).split(",");
+        int[] nums1=new int[strNums1.length];
+        for(int i=0;i<strNums1.length;i++){
+            nums1[i]=Integer.parseInt(strNums1[i]);
+        }
+        System.out.println("请输入第二个正序数组(例如[2]):");
+        String str2=sc.nextLine();
+        String[] strNums2=str2.substring(1,str2.length()-1).split(",");
+        int[] nums2=new int[strNums2.length];
+        for(int i=0;i<strNums2.length;i++){
+            nums2[i]=Integer.parseInt(strNums2[i]);
+        }
+        int len1=nums1.length;
+        int len2=nums2.length;
+        int k1=(len1+len2+1)/2;
+        int k2=(len1+len2+2)/2;
+        double median=(getKth(nums1,0,nums2,0,k1)+getKth(nums1,0,nums2,0,k2))/2.0;
+
+        //double median=findMedianSortedArrays(nums1,nums2);
+        System.out.printf("中位数为: %.5f%n", median);
+        sc.close();
+    }
+    public static double findMedianSortedArrays(int[] A,int[] B){
+        //分割法
+        int m=A.length;
+        int n=B.length;
+        if(m>n)return findMedianSortedArrays(B, A);
+        //保证m≤n，减少二分次数（仅对短数组二分）
+        int iMin=0;
+        int iMax=m;
+        int totalLen=m+n;
+        while(iMin<=iMax){
+            //分割点i是A的左半部分有i个元素，右半部分有m-i个
+            int i=(iMin+iMax)/2;
+            //分割点j是B的左半部分有j个元素，保证左半部分总长=(m+n+1)/2
+            int j=(totalLen+1)/2-i;
+            //边界值是处理i/j越界的情况（用极值替代，避免数组越界）
+            int A_left=(i==0)?Integer.MIN_VALUE:A[i-1];
+            int A_right=(i==m)?Integer.MAX_VALUE:A[i];
+            int B_left=(j==0)?Integer.MIN_VALUE:B[j-1];
+            int B_right=(j==n)?Integer.MAX_VALUE:B[j];
+            if(B_left > A_right){
+                iMin=i+1;
+            }//调整分割点：B左半边最大值>A右半边最小值→i需要增大(A左半边多拿)
+            else if(A_left>B_right){
+                iMax=i-1;//A左半边最大值>B右半边最小值→i需要减小(A左半边少拿)
+            }else{//找到正确分割点，计算中位数
+                int maxLeft=Math.max(A_left,B_left);
+                int minRight=Math.min(A_right,B_right);
+                //奇数：左半边最大值就是中位数
+                if(totalLen %2==1){
+                    return maxLeft;
+                }else{
+                    //偶数：左右平均
+                    return (maxLeft+minRight)/2.0;
+                }
+            }
+        }
+        return 0.0;
+    }
+    public static double getKth(int[] nums1,int i,int[] nums2,int j,int k){
+        //始终让nums1是较短的数组，简化边界判断
+        if(nums1.length - i > nums2.length - j){
+            return getKth(nums2,j,nums1,i,k);}
+        //终止条件1：nums1已空，直接返回nums2的第k小
+        if(i>=nums1.length)return nums2[j+k-1];
+        //终止条件2：k=1，返回当前两个指针的较小值
+        if(k==1)return Math.min(nums1[i],nums2[j]);
+        //计算要比较的位置（不超过数组长度）
+        int mid1=i+Math.min(nums1.length-i,k/2)-1;
+        int mid2=j+Math.min(nums2.length-j,k/2)-1;
+        //排除不可能元素，递归找剩余的K值
+        if(nums1[mid1]<=nums2[mid2]){
+            //排除nums1[i..mid1],剩余k=k-(mid1-i+1)
+            return getKth(nums1, mid1+1, nums2, j,k-(mid1-i+1));
+        }else{
+            //排除nums2[j..mid2],剩余k=k-(mid2-j+1)
+            return getKth(nums1, i, nums2, mid2+1, k-(mid2-j+1));
+        }
+    }
+}

@@ -1,0 +1,45 @@
+import java.util.*;
+public class Main{
+    public static void main(String[] args){
+        Scanner sc=new Scanner(System.in);
+        int numCourses=sc.nextInt();
+        int n=sc.nextInt();
+        int[][] prereduisities=new int[n][2];
+        //拓扑排序（BFS 入度表法）判断入度为0的课程（加入队列中）是否等于总课程数
+        for(int i=0;i<n;i++){
+            sc.nextLine();
+            prereduisities[i][0]=sc.nextInt();
+            prereduisities[i][1]=sc.nextInt();
+        }
+        //先初始化邻接表，再填充
+        List<List<Integer>> adj=new ArrayList<>();
+        int[] inDegree=new int[numCourses];
+        for(int i=0;i<numCourses;i++){
+            adj.add(new ArrayList<>());
+        }
+        for(int [] pre:prereduisities){
+            int a=pre[0];
+            int b=pre[1];
+            adj.get(b).add(a);//有向边b→a
+            inDegree[a]++;
+        }
+        Queue<Integer> que=new ArrayDeque<>();
+        for(int i=0;i<numCourses;i++){
+            if(inDegree[i]==0){
+                que.offer(i);//numCourses 门课程，记为 0 到 numCourses - 1
+            }
+        }
+        int count =0;
+        while(!que.isEmpty()){
+            int cur=que.poll();
+            count++;
+            for(int next:adj.get(cur)){
+                inDegree[next]--;
+                if(inDegree[next]==0){
+                    que.offer(next);
+                }
+            }
+        }
+        System.out.println(count==numCourses);
+    }
+}

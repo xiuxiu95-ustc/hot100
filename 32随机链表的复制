@@ -1,0 +1,78 @@
+import java.util.*;
+public class Main{
+    static class Node {
+        int val;
+        Node next;
+        Node random;
+        public Node(){}
+        public Node(int val) {
+            this.val = val;
+            this.next = null;
+            this.random = null;
+        }
+    }
+    public static Node buildRandomList(int[] nums,int[] numsRandom){
+        // 第一步：先创建所有节点，并存储到列表中，方便通过索引查找
+        List<Node> nodeList = new ArrayList<>();
+        for (int num : nums) {
+            nodeList.add(new Node(num));
+        }
+        // 第二步：设置next指针
+        for (int i = 0; i < nodeList.size() - 1; i++) {
+            nodeList.get(i).next = nodeList.get(i + 1);
+        }
+        // 第三步：设置random指针（核心修正）
+        for (int i = 0; i < numsRandom.length; i++) {
+            if (numsRandom[i] == -1) {
+                nodeList.get(i).random = null;
+            } else if (numsRandom[i] >= 0 && numsRandom[i] < nums.length) {
+                // 让当前节点的random指向对应索引的节点
+                nodeList.get(i).random = nodeList.get(numsRandom[i]);
+            }
+        }
+        return nodeList.get(0); // 返回头节点
+    }
+    public static void main(String[] args) {
+        Scanner sc=new Scanner(System.in);
+        System.out.println("请输入链表（如 1->3->5）");
+        String[] str=sc.nextLine().split("->");
+        int[] nums=new int[str.length];
+        for(int i=0;i<nums.length;i++){
+            nums[i]=Integer.parseInt(str[i]);
+        }
+        System.out.println("请输入每个节点的random指向的索引(如1 -1 0)");
+        String[] strRandom=sc.nextLine().split(" ");
+        int[] numsRandom=new int[strRandom.length];
+        for(int i=0;i<numsRandom.length;i++){
+            numsRandom[i]=Integer.parseInt(strRandom[i]);
+        }
+        Node head=buildRandomList(nums,numsRandom);
+
+        Map<Node,Node> map=new HashMap<>();
+        Node cur=head;
+        while(cur!=null){
+            map.put(cur,new Node(cur.val));
+            cur=cur.next;
+        }
+
+        cur=head;
+        while(cur!=null){
+            map.get(cur).next=map.get(cur.next);
+            map.get(cur).random=map.get(cur.random);
+            cur=cur.next;
+        }
+
+        //打印
+        Node temp = map.get(head);
+        while (temp != null) {
+            String randomVal = temp.random == null ?
+                            "null" : String.valueOf(temp.random.val);
+            System.out.print("节点值：" + temp.val + "，random指向：" + randomVal);
+            temp = temp.next;
+            if(temp!=null){
+                System.out.print("->");
+            }
+        }
+        System.out.println();
+    }
+}

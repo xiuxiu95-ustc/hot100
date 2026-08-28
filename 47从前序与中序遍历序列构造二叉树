@@ -1,0 +1,44 @@
+import java.util.*;
+public class Main{
+    static class TreeNode{
+        int val;
+        TreeNode left;
+        TreeNode right;
+        TreeNode(){}
+        TreeNode(int val){this.val=val;}
+        TreeNode(int val,TreeNode left,TreeNode right){this.val=val;this.left=left;this.right=right;}
+    }
+
+    static Map<Integer,Integer> inmap=new HashMap<>();
+    static int[] pre;
+    public static void main(String[] args) {
+        int[] preorder={3,9,20,15,7};
+        int[] inorder={9,3,15,20,7};
+        for(int i=0;i<inorder.length;i++){
+            inmap.put(inorder[i],i);
+        }
+        pre= preorder;
+        TreeNode root= dfs(0,inorder.length-1,0,preorder.length-1);
+        levelPrint(root);
+    }
+    public static TreeNode dfs(int inStart,int inEnd,int preStart,int preEnd){
+        if(inStart>inEnd ||preStart>preEnd)return null;
+        int rootVal=pre[preStart];
+        int index= inmap.get(rootVal);
+        TreeNode root=new TreeNode(rootVal);
+        root.left=dfs(inStart,index-1,preStart+1,preStart+index-inStart);
+        root.right=dfs(index+1,inEnd,preStart+index-inStart+1,preEnd);
+        return root;
+    }
+    // 层序遍历打印二叉树（辅助方法，复制即用，不用改）
+    public static void levelPrint(TreeNode root){
+        Deque<TreeNode> de = new ArrayDeque<>();
+        de.add(root);
+        while(!de.isEmpty()){
+            TreeNode node = de.pollFirst();
+            System.out.print(node.val + " ");
+            if(node.left != null) de.add(node.left);
+            if(node.right != null) de.add(node.right);
+        }
+    }
+}

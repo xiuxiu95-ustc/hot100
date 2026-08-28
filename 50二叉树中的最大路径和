@@ -1,0 +1,29 @@
+import java.util.*;
+public class Main{
+    static class TreeNode{
+        int val;
+        TreeNode left;
+        TreeNode right;
+        TreeNode(){}
+        TreeNode(int val){this.val=val;}
+        TreeNode(int val,TreeNode left,TreeNode right){this.val=val;this.left=left;this.right=right;}
+    }
+    static int res=Integer.MIN_VALUE;
+
+    public static void main(String[] args) {
+        // 测试用例1 原题经典用例
+        TreeNode root = new TreeNode(-10,new TreeNode(9),new TreeNode(20,new TreeNode(15),new TreeNode(7)));
+        dfs(root);
+        System.out.println(res); // 输出 42 ✔️
+
+    }
+
+
+    public static int dfs(TreeNode root){
+        if(root==null)return 0;
+        int left=dfs(root.left);
+        int right=dfs(root.right);
+        res=Math.max(res,left+right+root.val);
+        return Math.max(Math.max(left,right)+root.val,0);
+    }
+}

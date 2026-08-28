@@ -1,0 +1,41 @@
+import java.util.*;
+public class Main{
+    static class TreeNode{
+        int val;
+        TreeNode left;
+        TreeNode right;
+        TreeNode(){}
+        TreeNode(int val){
+            this.val=val;
+        }
+        TreeNode(int val,TreeNode left,TreeNode right){
+            this.val=val;
+            this.left=left;
+            this.right=right;
+        }
+    }
+    //static List<Integer> res=new ArrayList<>();
+    public static void main(String[] args){
+        /*Scanner sc=new Scanner(System.in);
+        int n=sc.nextInt();*/
+        TreeNode root = new TreeNode(3);
+        root.left = new TreeNode(9);
+        root.right = new TreeNode(20);
+        root.right.left = new TreeNode(15);
+        root.right.right = new TreeNode(7);
+        int res=0;
+        Deque<TreeNode> de=new ArrayDeque<>();
+        de.addLast(root);
+        while(!de.isEmpty()){
+            int size=de.size();
+            while(size>0){
+                TreeNode temp=de.pollFirst();
+                if(temp.left!=null)de.addLast(temp.left);
+                if(temp.right!=null)de.addLast(temp.right);
+                size--;
+            }
+            res++;
+        }
+        System.out.println(res);
+    }
+}
