@@ -4,37 +4,34 @@ public class Main{
         int val;
         TreeNode left;
         TreeNode right;
-        TreeNode(){}
-        TreeNode(int val){
-            this.val=val;
-        }
-        TreeNode(int val,TreeNode left,TreeNode right){
-            this.val=val;
-            this.left=left;
-            this.right=right;
-        }
+        TreeNode (){}
+        TreeNode (int val){this.val=val;}
+        TreeNode (int val,TreeNode left,TreeNode right){this.val=val;this.left=left;this.right=right;}
     }
     public static void main(String[] args){
-        Scanner sc = new Scanner(System.in);
         // 测试用例：构建二叉树 [3,9,20,null,null,15,7]
         TreeNode root = new TreeNode(3);
         root.left = new TreeNode(9);
         root.right = new TreeNode(20, new TreeNode(15), new TreeNode(7));
         List<List<Integer>> res= new ArrayList<>();
-        Deque<TreeNode> de=new LinkedList<>();
+        Deque<TreeNode> de=new ArrayDeque<>();
         de.addLast(root);
         while(!de.isEmpty()){
-            List<Integer> path=new ArrayList<>();
-            int size=de.size();
-            while(size>0){
-                TreeNode node=de.pollFirst();
-                path.add(node.val);
-                if(node.left!=null) de.addLast(node.left);
-                if(node.right!=null) de.addLast(node.right);
-                size--;
-            }
-            res.add(path);
+           int size=de.size();
+           List<Integer> path=new ArrayList<>();
+           while(size>0){
+            TreeNode temp=de.pollFirst();
+            path.add(temp.val);
+            if (temp.left!=null)de.addLast(temp.left);
+            if (temp.right!=null)de.addLast(temp.right);
+            size--;
+           } 
+           res.add(path);
         }
-        System.out.println(res);
+        System.out.print(res);
     }
+    
+
 }
+
+
