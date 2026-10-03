@@ -4,23 +4,24 @@ public class Main{
         int val;
         TreeNode left;
         TreeNode right;
-        TreeNode(){}
-        TreeNode(int val){this.val=val;}
-        TreeNode(int val,TreeNode left,TreeNode right){this.val=val;this.left=left;this.right=right;}
+        TreeNode (){}
+        TreeNode (int val){this.val=val;}
+        TreeNode (int val,TreeNode left,TreeNode right){this.val=val;this.left=left;this.right=right;}
     }
     static int k;
     public static void main(String[] args){
-        Scanner sc = new Scanner(System.in);
-        k=sc.nextInt();
+        k=1;
         TreeNode root = new TreeNode(3,new TreeNode(1,null,new TreeNode(2)),new TreeNode(4));
         System.out.println(dfs(root).val);
     }
     public static TreeNode dfs(TreeNode root){
-        if(root==null) return null;
+        if(root==null) return root;
         TreeNode left=dfs(root.left);
-        if(left!=null) return left;
+        if(left!=null) return left; 
         k--;
-        if(k==0)return root;//这里只是返回返回上一层
-        return dfs(root.right);//左子树找完了、当前节点也不是目标，就去右子树接着找
+        if(k==0) return root;
+        return dfs(root.right);
     }
 }
+
+
