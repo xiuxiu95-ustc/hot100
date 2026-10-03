@@ -4,22 +4,14 @@ public class Main{
         int val;
         TreeNode left;
         TreeNode right;
-        TreeNode(){}
-        TreeNode(int val){
-            this.val=val;
-        }
-        TreeNode(int val,TreeNode left,TreeNode right){
-            this.val=val;
-            this.left=left;
-            this.right=right;
-        }
+        TreeNode (){}
+        TreeNode (int val){this.val=val;}
+        TreeNode (int val,TreeNode left,TreeNode right){this.val=val;this.left=left;this.right=right;}
     }
     public static void main(String[] args){
-        Scanner sc = new Scanner(System.in);
-        // 测试用例：升序数组 [-10,-3,0,5,9] 是题目原题输入
         int[] nums = {-10,-3,0,5,9};
         TreeNode root = dfs(nums, 0,nums.length-1);
-        // 层序遍历打印构建的二叉树，验证结果：[[0], [-3,9], [-10,5]] 完美平衡BST
+
         List<List<Integer>> res = levelOrder(root);
         System.out.println(res);
     }
@@ -31,7 +23,6 @@ public class Main{
         node.right=dfs(nums,mid+1,right);
         return node;
     }
-    // 附赠层序遍历方法，用于打印验证结果
     public static List<List<Integer>> levelOrder(TreeNode root) {
         List<List<Integer>> res= new ArrayList<>();
         Deque<TreeNode> de=new ArrayDeque<>();
@@ -51,3 +42,5 @@ public class Main{
         return res;
     }
 }
+
+
