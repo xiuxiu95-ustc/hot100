@@ -1,47 +1,37 @@
-import java.util.ArrayDeque;
-import java.util.Scanner;
-import java.util.Queue;
+import java.util.*;
 public class Main{
-    public static int[][] directions={{-1,0},{1,0},{0,-1},{0,1}};
+    static int[][] directions={{1,0},{0,1},{-1,0},{0,-1}};
     public static void main(String[] args){
-        Scanner sc=new Scanner(System.in);
-        int m=sc.nextInt();
-        int n=sc.nextInt();
-        //存储腐烂橘子的坐标
-        Queue<int[]> que=new ArrayDeque<>();
-        //统计新鲜橘子的数量
-        int freshCount=0;
-        int[][] grid=new int[m][n];
-        for(int i=0;i<m;i++){
-            sc.nextLine();
-            for(int j=0;j<n;j++){
-                grid[i][j]=sc.nextInt();
-                if(grid[i][j]==2){
-                    que.offer(new int[]{i,j});
-                }else if(grid[i][j]==1){
-                    freshCount++;
+        int[][] grid = {{2,1,1},{1,1,0},{0,1,1}};
+        Deque<int[]> de=new ArrayDeque<>();
+        int count=0;
+        for(int i=0;i<3;i++){
+            for(int j=0;j<3;j++){
+                if(grid[i][j]==1){
+                    count++;
+                }else if(grid[i][j]==2){
+                    de.addLast(new int[]{i,j});
                 }
             }
-        }
+        } 
         int minute=0;
-        //如果不加&&freshCount>0，当最后一批被感染的橘子入队后，还会执行一轮 while，导致时间比实际多 1 分钟
-        while(!que.isEmpty()&&freshCount>0){//一批烂橘子
-            int size=que.size();
-            for(int i=0;i<size;i++){//每个烂橘子
-                int[] cur=que.poll();
+        while(count>0 && !de.isEmpty()){
+            int size=de.size();
+            while(size>0){
+                int[] cur=de.pollFirst();
                 for(int[] dir:directions){
                     int x=cur[0]+dir[0];
                     int y=cur[1]+dir[1];
-                    if(x>=0 &&x<m&&y>=0&&y<n&&grid[x][y]==1){
+                    if((x>=0 &&x<3&&y>=0&&y<3&&grid[x][y]==1)){
                         grid[x][y]=2;
-                        freshCount--;
-                        que.offer(new int[]{x,y});
+                        de.addLast(new int[]{x,y});
+                        count--;
                     }
-
                 }
+                size--;
             }
             minute++;
         }
-        System.out.println(freshCount==0?minute:-1);
+        System.out.println(count!=0?-1:minute);
     }
 }
