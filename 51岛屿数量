@@ -1,46 +1,37 @@
 import java.util.*;
-public class Main{
 
-    static int[][] directions=new int[][]{{1,0},{0,1},{-1,0},{0,-1}};
+import javax.swing.tree.TreeNode;
+public class Main{
+    static int[][] directions={{1,0},{0,1},{-1,0},{0,-1}};
     static boolean[][] visited;
     static int res=0;
-    public static void main(String[] args ){
-        Scanner sc=new Scanner(System.in);
-        int m=sc.nextInt();
-        int n=sc.nextInt();
-        sc.nextLine();
-        int[][] grid=new int[m][n];
-        for(int i=0;i<m;i++){
-            String row=sc.nextLine();
-            for(int j=0;j<n;j++){
-                grid[i][j]=row.charAt(j)-'0';
-            }
-        }
-        visited=new boolean[m][n];
+    public static void main(String[] args){
+        char[][] grid = {{'1','1','1','1','0'},  {'1','1','0','1','0'},  {'1','1','0','0','0'},{'0','0','0','0','0'}};
+        visited=new boolean[4][5];
         exist(grid);
         System.out.println(res);
     }
-    public static void exist(int[][] grid){
+    public static void exist(char[][] grid){
         for(int i=0;i<grid.length;i++){
             for(int j=0;j<grid[0].length;j++){
-                if(grid[i][j]==1 && visited[i][j]==false){
+                if(grid[i][j]=='1'&&visited [i][j]==false){
                     dfs(grid,i,j);
-                    res++;// 发现陆地，岛屿数+1，并淹掉整片相连陆地
+                    res++;
                 }
             }
         }
     }
-    public static void dfs(int[][] grid, int i, int j){
-        if(grid[i][j]==0)return;
+    public static void dfs(char[][] grid,int i,int j){
+        if(grid[i][j]=='0')return ;
         visited[i][j]=true;
         for(int[] nums:directions){
             int x=i+nums[0];
             int y=j+nums[1];
-            if(x>=0 && x<grid.length && y>=0 && y<grid[0].length &&visited[x][y]==false){
+            if(x>=0 && x<grid.length && y>=0 && y<grid[0].length && visited [x][y]==false){
                 dfs(grid,x,y);
             }
         }
+
     }
 
 }
-
