@@ -1,37 +1,43 @@
 import java.util.*;
-
-import javax.swing.tree.TreeNode;
 public class Main{
-    static int[][] directions={{1,0},{0,1},{-1,0},{0,-1}};
-    static boolean[][] visited;
-    static int res=0;
+    static int[][] directions=new int[][]{{-1,0},{1,0},{0,-1},{0,1}};
+    static int m;
+    static int n;
     public static void main(String[] args){
-        char[][] grid = {{'1','1','1','1','0'},  {'1','1','0','1','0'},  {'1','1','0','0','0'},{'0','0','0','0','0'}};
-        visited=new boolean[4][5];
-        exist(grid);
-        System.out.println(res);
+        char[][] board = {{'A','B','C','E'},{'S','F','C','S'},{'A','D','E','E'}};
+        String word="ABCCED";
+        m=board.length;
+        n=board[0].length;
+        System.out.println(exist(board,word));
     }
-    public static void exist(char[][] grid){
-        for(int i=0;i<grid.length;i++){
-            for(int j=0;j<grid[0].length;j++){
-                if(grid[i][j]=='1'&&visited [i][j]==false){
-                    dfs(grid,i,j);
-                    res++;
+    public static boolean exist(char[][] board,String word){
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(board[i][j]==word.charAt(0)){
+                    boolean[][] visited = new boolean[m][n];//不用全局 visited，每次 dfs 传新的
+                    if(dfs(board,word,i,j,0,visited)) return true;//不能直接return（相当于只看一个dfs的结果）
                 }
             }
         }
+        return false;
     }
-    public static void dfs(char[][] grid,int i,int j){
-        if(grid[i][j]=='0')return ;
+    public static boolean dfs(char[][] board,String word,int i,int j,int index,boolean[][] visited){
+        if(board[i][j]!=word.charAt(index)){
+            return false;
+        }
+        if(index==word.length()-1){
+            return true;
+        }
         visited[i][j]=true;
         for(int[] nums:directions){
             int x=i+nums[0];
             int y=j+nums[1];
-            if(x>=0 && x<grid.length && y>=0 && y<grid[0].length && visited [x][y]==false){
-                dfs(grid,x,y);
+            if(x>=0&&x<m&&y>=0&&y<n&&visited[x][y]==false){
+                if (dfs(board,word,x,y,index+1,visited)) return true;
             }
         }
-
+        //撤销标记，别的路径可以再次使用该格子
+        visited[i][j]=false;
+        return false;
     }
-
 }
