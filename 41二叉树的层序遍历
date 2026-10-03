@@ -15,23 +15,19 @@ public class Main{
         root.right = new TreeNode(20, new TreeNode(15), new TreeNode(7));
         List<List<Integer>> res= new ArrayList<>();
         Deque<TreeNode> de=new ArrayDeque<>();
-        de.addLast(root);
+        de.offerLast(root);
         while(!de.isEmpty()){
            int size=de.size();
            List<Integer> path=new ArrayList<>();
            while(size>0){
             TreeNode temp=de.pollFirst();
             path.add(temp.val);
-            if (temp.left!=null)de.addLast(temp.left);
-            if (temp.right!=null)de.addLast(temp.right);
+            if (temp.left!=null)de.offerLast(temp.left);//`push` 往队首加元素，`pop` 从队首拿，等价于栈，遍历顺序会错
+            if (temp.right!=null)de.offerLast(temp.right);
             size--;
            } 
            res.add(path);
         }
         System.out.print(res);
     }
-    
-
 }
-
-
