@@ -3,36 +3,36 @@ public class Main{
     static class ListNode{
         int val;
         ListNode next;
-        ListNode() {}
-        ListNode(int val) { this.val = val; }
-        ListNode(int val, ListNode next) {this.val = val; this.next = next; }
+        ListNode (){}
+        ListNode (int val){this.val=val;}
+        ListNode (int val,ListNode next){this.val=val;this.next=next;}
     }
     public static ListNode buildList(int[] nums){
-        ListNode dummy=new ListNode(-1);
-        ListNode cur=dummy;
+        ListNode dummy=new ListNode();
+        ListNode cur=dummy;//开始是dummy所以循环里先next
         for(int num:nums){
             cur.next=new ListNode(num);
             cur=cur.next;
         }
+        cur.next=null;
         return dummy.next;
     }
     public static void makeIntersection(ListNode headA, ListNode headB, int skipA ,int skipB) {
         ListNode curA=headA;
-        for(int i=0;i<skipA-1;i++){
+        for(int i=1;i<skipA;i++){
             curA=curA.next;
         }
         ListNode curB=headB;
-        for(int i=0;i<skipB;i++){
+        for(int i=1;i<=skipB;i++){
             curB=curB.next;
         }
         curA.next=curB;
     }
-    public static void main(String[] args) {
-        Scanner sc=new Scanner(System.in);
-        int[] numsA=new int[]{4,1,8,4,5};
-        int[] numsB=new int[]{5,6,1,8,4,5};
-        ListNode headA=buildList(numsA);
-        ListNode headB=buildList(numsB);
+    public static void main(String[] args){
+        int[] numsA={4,1,8,4,5};
+        ListNode headA =buildList(numsA);
+        int[] numsB={5,6,1,8,4,5};
+        ListNode headB =buildList(numsB);
         makeIntersection(headA, headB, 2, 3);
         ListNode a=headA;
         ListNode b=headB;
@@ -48,6 +48,8 @@ public class Main{
                 b=headA;
             }
         }
-        System.out.println(a.val);
+        System.out.print(a.val);
     }
 }
+
+
