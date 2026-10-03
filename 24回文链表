@@ -18,18 +18,18 @@ public class Main{
         return dummy.next;
     }
     public static void main(String[] args){
-        int[] nums={1,2,2,1};
+        int[] nums={1,2,3,4,3,2,1};
         ListNode head =buildList(nums);
 
         ListNode fast=head;
         ListNode low=head;
-        while(fast!=null && fast.next!=null){//如果是奇数个，secondNode对应的链表包括中点
+        while(fast!=null && fast.next!=null){
             fast=fast.next.next;
             low=low.next;
         }
 
         ListNode pre= null;
-        ListNode cur=low;
+        ListNode cur=low;//如果是奇数个，secondNode对应的链表包括中点
         while(cur!=null){
             ListNode temp=cur.next;
             cur.next=pre;
@@ -40,7 +40,7 @@ public class Main{
 
         boolean mark=true;
         while(node!=null){
-            if(head.val!=node.val){//head对应着整个链表
+            if(head.val!=node.val){
                 mark=false;
                 break;
             }
