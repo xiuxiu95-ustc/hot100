@@ -1,24 +1,23 @@
 import java.util.*;
 public class Main{
-    public static void main(String[] args) {
-        Scanner sc=new Scanner(System.in);
-        int[] nums=new int[]{3, 4,-1,1};
-        int res=nums.length+1;
+    public static void main(String[] args){
+        int[] nums={1,2,0};
         for(int i=0;i<nums.length;i++){
-            if(nums[i]<=0)nums[i]= nums.length+1;
+            if(nums[i]<=0){
+                nums[i]=nums.length+1;
+            }
         }
         for(int i=0;i<nums.length;i++){
-            int num=Math.abs(nums[i]);
-            if(num<=nums.length){
-                nums[num-1]=-Math.abs(nums[num-1]);//数字 x 出现了，就把下标为 x-1 的位置标记成负数。
+            int temp=Math.abs(nums[i]);
+            if(temp<=nums.length){
+                nums[temp-1]=-Math.abs(nums[temp-1]);
             }
         }
         for(int i=0;i<nums.length;i++){
             if(nums[i]>0){
-                res=i+1;
+                System.out.println(i+1);//res=i+1;
                 break;
             }
         }
-        System.out.println(res);
     }
 }
