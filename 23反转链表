@@ -3,43 +3,40 @@ public class Main{
     static class ListNode{
         int val;
         ListNode next;
-        ListNode() {}
-        ListNode(int val) { this.val = val; }
-        ListNode(int val, ListNode next) {this.val = val; this.next = next; }
+        ListNode (){}
+        ListNode (int val){this.val=val;}
+        ListNode (int val,ListNode next){this.val=val;this.next=next;}
     }
     public static ListNode buildList(int[] nums){
-        ListNode dummy=new ListNode(-1);
-        ListNode cur=dummy;
+        ListNode dummy=new ListNode();
+        ListNode cur=dummy;//开始是dummy所以循环里先next
         for(int num:nums){
             cur.next=new ListNode(num);
             cur=cur.next;
         }
+        cur.next=null;
         return dummy.next;
     }
-    public static void main(String[] args) {
-        Scanner sc=new Scanner(System.in);
-        String[] str=sc.nextLine().split("->");
-        int[] nums=new int[str.length];
-        for(int i=0;i<str.length;i++){
-            nums[i]=Integer.parseInt(str[i]);
-        }
-        ListNode head= buildList(nums);
+    public static void main(String[] args){
+        int[] nums={1,2,3,4,5};
+        ListNode head =buildList(nums);
+        ListNode pre= null;
         ListNode cur=head;
-        ListNode pre=null;
         while(cur!=null){
             ListNode temp=cur.next;
             cur.next=pre;
-            pre=cur;//别写成pre=pre.next;这时候可没有pre.next
+            pre=cur;
             cur=temp;
         }
-        //打印
-        ListNode a=pre;
-        while(a!=null){
-            System.out.print(a.val);
-            if(a.next!=null){
+        ListNode node=pre;
+        while(node!=null){
+            System.out.print(node.val);
+            if(node.next!=null){
                 System.out.print("->");
             }
-            a=a.next;
+            node=node.next;
         }
     }
 }
+
+
