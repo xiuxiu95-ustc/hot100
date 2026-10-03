@@ -3,15 +3,15 @@ public class Main{
     static class ListNode{
         int val;
         ListNode next;
-        ListNode() {}
-        ListNode(int val) { this.val = val; }
-        ListNode(int val, ListNode next) {this.val = val; this.next = next; }
+        ListNode (){}
+        ListNode (int val){this.val=val;}
+        ListNode (int val,ListNode next){this.val=val;this.next=next;}
     }
     public static ListNode buildCycleList(int[] nums,int pos){
         ListNode dummy=new ListNode();
-        ListNode cur=dummy;
+        ListNode cur=dummy;//开始是dummy所以循环里先next
         ListNode cycle=new ListNode();
-        for(int i = 0; i < nums.length; i++){
+        for(int i=0;i<nums.length;i++){
             cur.next=new ListNode(nums[i]);
             cur=cur.next;
             if(i==pos){
@@ -23,28 +23,23 @@ public class Main{
         }
         return dummy.next;
     }
-    public static void main(String[] args) {
-        Scanner sc=new Scanner(System.in);
-        System.out.println("请输入链表节点值");
-        String[] str=sc.nextLine().split("->");
-        int[] nums=new int[str.length];
-        for(int i=0;i<str.length;i++){
-            nums[i]=Integer.parseInt(str[i]);
-        }
-        System.out.println("请输入环的入口索引（-1表示无环，索引从0开始)");
-        int pos=sc.nextInt();
-        ListNode head= buildCycleList(nums,pos);
+    public static void main(String[] args){
+        int[] nums={3,2,0,-4};
+        ListNode head =buildCycleList(nums,1);
         ListNode fast=head;
-        ListNode slow=head;
+        ListNode low=head;
         boolean mark=false;
         while(fast!=null && fast.next!=null){
             fast=fast.next.next;
-            slow=slow.next;
-            if(fast==slow){
+            low=low.next;
+            if(fast==low){
                 mark=true;
                 break;
             }
         }
-        System.out.println(mark);
+        System.out.print(mark);
+
     }
 }
+
+
