@@ -1,0 +1,26 @@
+import java.util.*;
+public class Main{
+    static List<String> res=new ArrayList<>();
+    static StringBuilder path=new StringBuilder();
+    public static void main(String[] args){
+        int n=3;
+        dfs(n,0,0);
+        System.out.println(res);
+    }
+    public static void dfs(int n,int left,int right){
+        if(left==n && right==n){
+            res.add(path.toString());
+            return;
+        }
+        if(left<n){
+            path.append('(');
+            dfs(n,left+1,right);
+            path.deleteCharAt(path.length() - 1);
+        }
+        if(right<left){//尝试放右括号（前提是目前的右括号比左括号少）
+            path.append(')');
+            dfs(n,left,right+1);
+            path.deleteCharAt(path.length() - 1);
+        }
+    }
+}
