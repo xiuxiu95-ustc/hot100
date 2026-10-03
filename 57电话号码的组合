@@ -1,0 +1,24 @@
+import java.util.*;
+public class Main{
+    static List<String> res=new ArrayList<>();
+    static StringBuilder path=new StringBuilder();
+    static String[] sou={"","","abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
+    public static void main(String[] args){
+        String digits = "23";
+        dfs(digits,0);
+        System.out.print(res);
+    }
+    public static void dfs(String digits,int digitsIndex){
+        if(digitsIndex==digits.length()){
+            res.add(path.toString());
+            return ;
+        }
+        String str=sou[digits.charAt(digitsIndex)-'0'];
+        for(int i=0;i<str.length();i++){
+            path.append(str.charAt(i));
+            dfs(digits,digitsIndex+1);
+            path.deleteCharAt(path.length()-1);
+        }
+    }
+    //digits = "23"，怎么保证2对应的所有字母和3对应的所有字母都组合一遍并且不重复？只要各自全都遍历就可以，不在同一个集合里不冲突
+}
