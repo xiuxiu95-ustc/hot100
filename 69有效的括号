@@ -1,0 +1,24 @@
+import java.util.*;
+public class Main{
+    public static void main(String[] args){
+        String s = "()[]{}";
+        Deque<Character> st=new ArrayDeque<>();
+        boolean res=true;
+        for(char ch:s.toCharArray()){
+            if(ch=='('){
+                st.push(')');
+            }else if(ch=='{'){
+                st.push('}');
+            }else if(ch=='['){
+                st.push(']');
+            }else if(st.isEmpty() || ch!=st.peek()){
+                res=false;
+                break;
+            }else{
+                st.pop();
+            }
+        }
+        if(!st.isEmpty()) res=false;
+        System.out.println(res);
+    }
+}
