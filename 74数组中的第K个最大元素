@@ -1,0 +1,15 @@
+import java.util.*;
+public class Main{
+    public static void main(String[] args){
+        int[] nums = {3,2,1,5,6,4};
+        int k = 2;
+        PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+        for(int num : nums){
+            minHeap.offer(num);
+            if(minHeap.size() > k){
+                minHeap.poll();
+            }
+        }
+        System.out.println(minHeap.peek());
+    }
+}
