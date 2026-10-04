@@ -1,0 +1,16 @@
+import java.util.*;
+public class Main{
+    public static void main(String[] args){
+        int[] temperatures = {73,74,75,71,69,72,76,73};
+        int[] res=new int[temperatures.length];
+        Deque<Integer> de=new ArrayDeque<>();
+        for(int i=0;i<temperatures.length;i++){
+            while(!de.isEmpty()  && temperatures[i]>temperatures[de.peek()]){
+                res[de.peek()]=i-de.peek();
+                de.pop();
+            }
+            de.push(i);
+        }
+        System.out.println(Arrays.toString(res));
+    }
+}
