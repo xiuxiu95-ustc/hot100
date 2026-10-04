@@ -10,26 +10,24 @@ public class Main{
         dfs(0,queens,col,diag1,diag2);
         System.out.println(res);
     }
-    public static void dfs(int r,int[] queens,boolean[] col,boolean[] diag1,boolean[] diag2){
-        if(r==queens.length){
-            List<String> board=new ArrayList<>();
+    public static void dfs(int row,int[] queens,boolean[] col,boolean[] diag1,boolean[] diag2){
+        if(row==queens.length){
+            List<String> path=new ArrayList<>();
             for(int c:queens){
-                char[] row=new char[queens.length];
-                Arrays.fill(row,'.');
-                row[c]='Q';
-                board.add(new String(row));//字符数组toString()是打印
+                char[] ca=new char[queens.length];
+                Arrays.fill(ca,'.');
+                ca[c]='Q';
+                path.add(new String(ca));
             }
-            res.add(new ArrayList<>(board));
+            res.add(path);
             return;
         }
         for(int c=0;c<queens.length;c++){
-            if(!col[c]&& !diag1[r+c] && !diag2[r-c+ queens.length-1]){
-                //同一个↗斜线上，所有格子满足 r+c 等于同一个常数
-                //同一个↘斜线上，所有格子满足 r-c 相等，加上偏移量 n-1 把它平移到 >=0
-                queens[r]=c;
-                col[c]=diag1[r+c]=diag2[r-c+ queens.length-1]=true;
-                dfs(r+1,queens,col,diag1,diag2);
-                col[c]=diag1[r+c]=diag2[r-c+ queens.length-1]=false;
+            if(!col[c] && !diag1[row+c] && !diag2[row-c+queens.length-1]){
+                queens[row]=c;
+                col[c]=diag1[row+c]=diag2[row-c+queens.length-1]=true;
+                dfs(row+1,queens,col,diag1,diag2);
+                col[c]=diag1[row+c]=diag2[row-c+queens.length-1]=false;
             }
         }
     }
